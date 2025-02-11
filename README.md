@@ -1,8 +1,16 @@
-# Elementor Empty Template
+# Elementor Tests Configuration
 
-This Boilerplate is simple starting point for creating repository from scratch within elementor organization.
+This repository serves as a centralized location for storing configurations related to automated testing for Elementor. It includes test settings, environment configurations, and a maintained list of skipped tests.
 
-The repo includes InitRepo action that will be triggered automatically after repo created from this template and will configure:
-  - repository protected branch settings
-  - pull requests labels
-  - Create first initial release 
+## 📌 Features
+
+- Centralized test configurations for consistency across automation projects.
+- Maintained list of skipped tests for tracking and debugging.
+- CI/CD-related settings for smoother test execution.
+
+## 🚀 Getting Started
+
+### Cloning the Repository
+To clone this repository, run:
+```bash
+git clone https://github.com/YOUR_USERNAME/elementor-tests-configuration.git
