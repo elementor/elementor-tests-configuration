@@ -1,0 +1,7 @@
+{
+	"skipped_tests": [
+		"Container tests in Elementor Pro",
+		"Elementor essential license tests",
+		"Experiment Modal message with multiple dependencies"
+	]
+}
