@@ -1,11 +1,15 @@
 name: Map GitHub user to Slack
 
 on:
+  workflow_dispatch:
+    inputs:
+      slack_user:
+        required: false
   workflow_call:
     outputs:
       slack_user:
         description: "Mapped Slack username"
-        value: ${{ jobs.map_user.outputs.slack_user }}
+        value: ${{ jobs.map_user.outputs.slack_user }}     
 
 jobs:
   map_user:
