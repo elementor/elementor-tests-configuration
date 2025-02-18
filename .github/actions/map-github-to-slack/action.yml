@@ -1,0 +1,24 @@
+name: "Map GitHub user to Slack"
+description: "Maps a GitHub username to a Slack username"
+inputs:
+  github_user:
+    description: "GitHub username"
+    required: true
+outputs:
+  slack_user:
+    description: "Mapped Slack username"
+    value: ${{ steps.map_github_user.outputs.slack_user }}
+runs:
+  using: "composite"
+  steps:
+    - name: Fetch Slack user from JSON
+      id: map_github_user
+      shell: bash
+      run: |
+        REPO="elementor/elementor-tests-configuration"
+        FILE_PATH="github_to_slack.json"
+        FILE_CONTENT=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          "https://api.github.com/repos/$REPO/contents/$FILE_PATH" | jq -r '.content' | base64 --decode)
+        SLACK_USER=$(echo "$FILE_CONTENT" | jq -r --arg user "${{ inputs.github_user }}" '.[$user] // "@"+$user')
+
+        echo "slack_user=$SLACK_USER" >> $GITHUB_OUTPUT
