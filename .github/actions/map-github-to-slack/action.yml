@@ -15,10 +15,14 @@ runs:
       id: map_github_user
       shell: bash
       run: |
-        REPO="elementor/elementor-tests-configuration"
-        FILE_PATH="github_to_slack.json"
-        FILE_CONTENT=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          "https://api.github.com/repos/$REPO/contents/$FILE_PATH" | jq -r '.content' | base64 --decode)
+        FILE_PATH="${{ github.workspace }}/github_to_slack.json"
+        
+        if [[ ! -f "$FILE_PATH" ]]; then
+          echo "Error: File $FILE_PATH not found!" >&2
+          exit 1
+        fi
+
+        FILE_CONTENT=$(cat "$FILE_PATH")
         SLACK_USER=$(echo "$FILE_CONTENT" | jq -r --arg user "${{ inputs.github_user }}" '.[$user] // "@"+$user')
 
         echo "slack_user=$SLACK_USER" >> $GITHUB_OUTPUT
