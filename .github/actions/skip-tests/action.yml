@@ -4,7 +4,7 @@ inputs:
   file_path:
     description: "Relative path to the JSON file containing skipped tests"
     required: false
-    default: "tests/playwright/config/skipped_tests.json"
+    default: "skipped_tests_pro.json"
 outputs:
   skip_pattern:
     description: "Pattern built from the skipped tests"
