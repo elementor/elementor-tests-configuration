@@ -11,11 +11,16 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - name: Clone elementor-tests-configuration
+      shell: bash
+      run: |
+        git clone https://github.com/elementor/elementor-tests-configuration.git config_repo
+
     - name: Fetch Slack user from JSON
       id: map_github_user
       shell: bash
       run: |
-        FILE_PATH="${{ github.workspace }}/github_to_slack.json"
+        FILE_PATH="config_repo/github_to_slack.json"
         
         if [[ ! -f "$FILE_PATH" ]]; then
           echo "Error: File $FILE_PATH not found!" >&2
