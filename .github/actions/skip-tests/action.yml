@@ -1,0 +1,31 @@
+name: "Read Skipped Tests"
+description: "Reads a JSON file with skipped tests and outputs a pattern for filtering tests"
+inputs:
+  file_path:
+    description: "Relative path to the JSON file containing skipped tests"
+    required: false
+    default: "tests/playwright/config/skipped_tests.json"
+outputs:
+  skip_pattern:
+    description: "Pattern built from the skipped tests"
+    value: ${{ steps.read.outputs.skip_pattern }}
+runs:
+  using: "composite"
+  steps:
+    - name: Clone elementor-tests-configuration repository
+      shell: bash
+      run: |
+        git clone https://github.com/elementor/elementor-tests-configuration.git config_repo
+
+    - name: Read Skipped Tests from JSON
+      id: read
+      shell: bash
+      run: |
+        FILE="config_repo/${{ inputs.file_path }}"
+        if [ -f "$FILE" ]; then
+          SKIP_PATTERN=$(jq -r '.skipped_tests | join("|")' "$FILE")
+        else
+          SKIP_PATTERN=""
+        fi
+        echo "SKIP_PATTERN: $SKIP_PATTERN"
+        echo "skip_pattern=$SKIP_PATTERN" >> $GITHUB_OUTPUT
