@@ -16,14 +16,6 @@ runs:
       run: |
         git clone https://github.com/elementor/elementor-tests-configuration.git config_repo
 
-    - name: Debug List cloned files
-      shell: bash
-      run: ls -la config_repo
-
-    - name: Debug Show JSON file content
-      shell: bash
-      run: cat config_repo/github_to_slack.json
-
     - name: Fetch Slack user from JSON
       id: map_github_user
       shell: bash
@@ -37,12 +29,9 @@ runs:
         echo "DEBUG: Input github_user = '${{ inputs.github_user }}'"
 
         FILE_CONTENT=$(cat "$FILE_PATH")
-        echo "DEBUG: FILE_CONTENT:"
-        echo "$FILE_CONTENT"
 
         FILE_CONTENT=$(echo "$FILE_CONTENT" | sed '1s/^\xEF\xBB\xBF//')
 
         SLACK_USER=$(echo "$FILE_CONTENT" | jq -r --arg user "${{ inputs.github_user }}" '.[$user] // ("@" + $user)')
-        echo "DEBUG: SLACK_USER: '$SLACK_USER'"
 
         echo "slack_user=$SLACK_USER" >> $GITHUB_OUTPUT
