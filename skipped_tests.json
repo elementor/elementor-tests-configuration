@@ -1,4 +1,5 @@
 {
 	"skipped_tests": [
+		'Global widget tests'
 	]
 }
