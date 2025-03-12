@@ -13,4 +13,4 @@ This repository serves as a centralized location for storing configurations rela
 ### Cloning the Repository
 To clone this repository, run:
 ```bash
-git clone https://github.com/YOUR_USERNAME/elementor-tests-configuration.git
+git clone https://github.com/elementor/elementor-tests-configuration.git
