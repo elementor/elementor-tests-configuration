@@ -32,6 +32,12 @@ runs:
 
         FILE_CONTENT=$(echo "$FILE_CONTENT" | sed '1s/^\xEF\xBB\xBF//')
 
-        SLACK_USER=$(echo "$FILE_CONTENT" | jq -r --arg user "${{ inputs.github_user }}" '.[$user] // ("@" + $user)')
+        SLACK_USER=$(echo "$FILE_CONTENT" | jq -r --arg user "${{ inputs.github_user }}" '.[$user] // empty')
+
+        if [[ -n "$SLACK_USER" && "$SLACK_USER" == U* ]]; then
+          SLACK_USER="<@$SLACK_USER>"
+        else
+          SLACK_USER="@${{ inputs.github_user }}"
+        fi
 
         echo "slack_user=$SLACK_USER" >> $GITHUB_OUTPUT
